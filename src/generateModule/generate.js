@@ -59,22 +59,38 @@ async function generate(moduleName) {
     const createRoute = `const express = require('express');
 const router = express.Router();
 router.post('/${listControllerName}', async function _list(req, res, next) {
-    const data = await require('../controllers/${routeName}/${listControllerName}')(req.body);
-    return res.json({ data: data, message: 'request executed successfully' });
+    try {
+        const data = await require('../controllers/${routeName}/${listControllerName}')(req.body);
+        return res.json({ data: data, message: 'request executed successfully' });    
+    } catch (error) {
+        next(error);
+    }
 });
 router.post('/', async function _create(req, res, next) {
-    const data = await require('../controllers/${routeName}/${createControllerName}')(req.body);
-    return res.json({ data: data, message: 'request executed successfully' });
+    try {
+        const data = await require('../controllers/${routeName}/${createControllerName}')(req.body);
+        return res.json({ data: data, message: 'request executed successfully' });    
+    } catch (error) {
+        next(error);
+    }
 });
 router.get('/:id', async function _get(req, res, next) {
-    let id = req.params.id;
-    const data = await require('../controllers/${routeName}/${getControllerName}')(id);
-    return res.json({ data: data, message: 'request executed successfully' });
+    try {
+        let id = req.params.id;
+        const data = await require('../controllers/${routeName}/${getControllerName}')(id);
+        return res.json({ data: data, message: 'request executed successfully' });    
+    } catch (error) {
+        next(error);
+    }
 });
 router.delete('/:id', async function _delete(req, res, next) {
-    let id = req.params.id;
-    const data = await require('../controllers/${routeName}/${deleteControllerName}')(id);
-    return res.json({ data: data, message: 'request executed successfully' });
+    try {
+        let id = req.params.id;
+        const data = await require('../controllers/${routeName}/${deleteControllerName}')(id);
+        return res.json({ data: data, message: 'request executed successfully' });    
+    } catch (error) {
+        next(error);
+    }
 });
 module.exports = router;`;
 
